@@ -23,6 +23,13 @@ for name, url in PROGRAMS.items():
             check=True
         )
 
+        # Debug: Stampa il contenuto generato per vedere se è vuoto
+        print(f"📜 Contenuto XML generato per {name}:\n{result.stdout}")
+
+        # Se il contenuto è vuoto, segnalarlo
+        if not result.stdout.strip():
+            print(f"⚠ Attenzione: Il feed {name} è vuoto!")
+
         # Salva il feed generato
         file_name = f"feed_{name}.xml"
         with open(file_name, "w", encoding="utf-8") as f:
