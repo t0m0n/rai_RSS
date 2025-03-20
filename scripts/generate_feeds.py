@@ -23,19 +23,18 @@ for name, url in PROGRAMS.items():
             check=True
         )
 
-        # Debug: Stampa il contenuto generato per vedere se è vuoto
-        print(f"📜 Contenuto XML generato per {name}:\n{result.stdout}")
+        # Il vero file XML è stato salvato con il nome originale
+        original_file = f"{name}.xml"
 
-        # Se il contenuto è vuoto, segnalarlo
-        if not result.stdout.strip():
-            print(f"⚠ Attenzione: Il feed {name} è vuoto!")
+        # Verifica se il file originale esiste
+        if not os.path.exists(original_file):
+            print(f"❌ Errore: Il file {original_file} non è stato generato correttamente!")
+            continue  # Passa al prossimo programma
 
-        # Salva il feed generato
-        file_name = f"feed_{name}.xml"
-        with open(file_name, "w", encoding="utf-8") as f:
-            f.write(result.stdout)
-
-        print(f"✅ Feed XML salvato: {file_name}")
+        # Rinominiamo il file corretto con il prefisso "feed_"
+        new_file = f"feed_{name}.xml"
+        os.rename(original_file, new_file)
+        print(f"✅ Feed XML salvato correttamente: {new_file}")
 
     except subprocess.CalledProcessError as e:
         print(f"❌ Errore nell'esecuzione di single.py per {name}: {e.stderr}")
