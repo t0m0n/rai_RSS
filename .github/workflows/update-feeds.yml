@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # Disabilita le credenziali di default
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -37,5 +39,6 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/giuliomagnifico/raiplay-feed.git
           git add feed_*.xml || true
-          git diff --staged --quiet || (git commit -m "🔄 Aggiornamento automatico dei feed XML" && git push https://x-access-token:${GH_PAT}@github.com/giuliomagnifico/raiplay-feed.git main)
+          git diff --staged --quiet || (git commit -m "🔄 Aggiornamento automatico dei feed XML" && git push origin main)
