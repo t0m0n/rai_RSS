@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4 lxml
+          pip install requests beautifulsoup4 lxml feedendum
 
       - name: Generate Feeds
         run: python scripts/generate_feeds.py
