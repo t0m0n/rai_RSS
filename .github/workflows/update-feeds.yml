@@ -31,7 +31,20 @@ jobs:
           echo "📂 Contenuto della directory:"
           ls -l
           echo "📜 Contenuto dei feed XML:"
-          cat feed_*.xml || echo "⚠ Nessun file XML generato"
+          for file in feed_*.xml; do
+            echo "📄 Contenuto di $file:"
+            cat "$file"
+            echo "-----------------------------"
+          done
+
+      - name: Verifica dimensione file XML
+        run: |
+          for file in feed_*.xml; do
+            size=$(wc -c < "$file")
+            if [ "$size" -lt 50 ]; then
+              echo "⚠ Il file $file è troppo piccolo, potrebbe essere vuoto!"
+            fi
+          done
 
       - name: Commit and Push (con autenticazione)
         env:
