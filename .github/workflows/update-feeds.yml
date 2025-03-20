@@ -1,12 +1,12 @@
-name: Update RaiPlaySound XML
+name: Update RaiPlaySound Feeds
 
 on:
   schedule:
-    - cron: "0 4 * * *"  # Aggiorna ogni giorno alle 4:00 UTC
+    - cron: "0 */6 * * *"  # Aggiorna ogni 6 ore
   workflow_dispatch:  # Permette di eseguirlo manualmente
 
 jobs:
-  update-feed:
+  update-feeds:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -20,13 +20,13 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Generate XML
-        run: python scripts/generate_xml.py
+      - name: Generate Feeds
+        run: python scripts/generate_feeds.py
 
       - name: Commit and Push
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
-          git add feed.xml
-          git commit -m "🔄 Aggiornamento automatico del feed XML" || echo "Nessuna modifica"
+          git add feed_*.xml
+          git commit -m "🔄 Aggiornamento automatico dei feed XML" || echo "Nessuna modifica"
           git push
