@@ -1,7 +1,11 @@
-import requests
+import os
 import json
+import subprocess
 
-# Lista dei programmi e relativi file XML
+# Percorso dello script single.py
+SCRIPT_PATH = os.path.abspath("scripts/single.py")
+
+# Lista dei programmi da generare
 PROGRAMS = {
     "ungiornodapecora": "https://www.raiplaysound.it/programmi/ungiornodapecora",
     "zapping": "https://www.raiplaysound.it/programmi/zapping",
@@ -9,16 +13,28 @@ PROGRAMS = {
 }
 
 for name, url in PROGRAMS.items():
-    api_url = f"https://timendum.github.io/raiplaysound/diy?url={url}"
+    print(f"📡 Generazione feed per {name}...")
 
     try:
-        response = requests.get(api_url)
-        response.raise_for_status()
-        data = response.json()
+        # Esegui lo script single.py per ottenere il JSON del programma
+        result = subprocess.run(
+            ["python3", SCRIPT_PATH, url],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+
+        # Converte l'output JSON in un dizionario Python
+        data = json.loads(result.stdout)
+
+        # Controlliamo che ci siano episodi
+        if "episodes" not in data or not data["episodes"]:
+            print(f"⚠ Nessun episodio trovato per {name}, salto...")
+            continue  # Passiamo al prossimo programma
 
         # Creazione del file XML
         xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n'
-        xml_content += f"<title>{data['title']}</title>\n"
+        xml_content += f"<title>{data.get('title', 'Senza titolo')}</title>\n"
 
         for item in data['episodes']:
             xml_content += f"<item>\n<title>{item['title']}</title>\n"
@@ -26,12 +42,17 @@ for name, url in PROGRAMS.items():
 
         xml_content += "</channel>\n</rss>"
 
-        # Salva il file XML con il nome del programma
+        # Salva il file XML
         file_name = f"feed_{name}.xml"
+        file_path = os.path.abspath(file_name)
         with open(file_name, "w", encoding="utf-8") as f:
             f.write(xml_content)
 
-        print(f"✅ Feed XML generato per {name}!")
+        print(f"✅ Feed XML salvato: {file_path}")
 
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Errore nell'esecuzione di single.py per {name}: {e.stderr}")
+    except json.JSONDecodeError:
+        print(f"❌ Errore nella conversione JSON per {name}, output ricevuto:\n{result.stdout}")
     except Exception as e:
-        print(f"❌ Errore per {name}: {e}")
+        print(f"❌ Errore generico per {name}: {e}")
