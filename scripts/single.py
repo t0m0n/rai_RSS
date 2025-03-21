@@ -119,7 +119,7 @@ class RaiParser:
             fitem._data = {
                 "enclosure": {
                     "@type": "audio/mpeg",
-                    "@url": urljoin(self.url, item["audio"]["url"]),
+                    "@url": "https://raiplay-proxy.giuliomagnifico.workers.dev/" + urljoin(self.url, item["audio"]["url"]),
                 },
                 f"{NSITUNES}title": fitem.title,
                 f"{NSITUNES}summary": fitem.content,
