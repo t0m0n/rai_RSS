@@ -78,7 +78,7 @@ class RaiParser:
         feed._data["image"] = {"url": urljoin(self.url, rdata["podcast_info"]["image"])}
         feed._data[f"{NSITUNES}author"] = "RaiPlaySound"
         feed._data["language"] = "it-it"
-        feed._data[f"{NSITUNES}owner"] = {f"{NSITUNES}email": "giuliomagnifico@gmail.com"}
+        feed._data[f"{NSITUNES}owner"] = {f"{NSITUNES}email": "timedum@gmail.com"}
         # Categories
         categories = set()  # to prevent duplicates
         for c in chain(
@@ -109,17 +109,19 @@ class RaiParser:
                 continue
             fitem = FeedItem()
             fitem.title = item["toptitle"]
-            fitem.id = "giuliomagnifico-raiplay-feed-" + item["uniquename"]
+            fitem.id = "timendum-raiplaysound-" + item["uniquename"]
             # Keep original ordering by tweaking update seconds
             # Fix time in case of bad ordering
             dupdate = _datetime_parser(item["create_date"] + " " + item["create_time"])
             fitem.update = dupdate
             fitem.url = urljoin(self.url, item["track_info"]["page_url"])
             fitem.content = item.get("description", item["title"])
+            original_url = urljoin(self.url, item["audio"]["url"])
+            final_mp3_url = resolve_final_mp3_url(original_url)
             fitem._data = {
                 "enclosure": {
                     "@type": "audio/mpeg",
-                    "@url": urljoin(self.url, item["audio"]["url"]),
+                    "@url": final_mp3_url,
                 },
                 f"{NSITUNES}title": fitem.title,
                 f"{NSITUNES}summary": fitem.content,
@@ -224,7 +226,7 @@ def main():
 
     parser = argparse.ArgumentParser(
         description="Genera un RSS da un programma di RaiPlaySound.",
-        epilog="Info su https://github.com/giuliomagnifico/raiplay-feed/",
+        epilog="Info su https://github.com/timendum/raiplaysound/",
     )
     parser.add_argument("url", help="URL di un podcast (o playlist) su raiplaysound.")
     parser.add_argument(
