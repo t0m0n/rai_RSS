@@ -119,7 +119,7 @@ class RaiParser:
             fitem._data = {
                 "enclosure": {
                     "@type": "audio/mpeg",
-                    "@url": "https://raiplay-proxy.giuliomagnifico.workers.dev/" + urljoin(self.url, item["audio"]["url"]),
+                    "@url": "https://raiplay-proxy.giuliomagnifico.workers.dev/" + urljoin(self.url, f"https://raiplay-proxy.giuliomagnifico.workers.dev/?url={item['audio']['url']}"),
                 },
                 f"{NSITUNES}title": fitem.title,
                 f"{NSITUNES}summary": fitem.content,
@@ -128,7 +128,7 @@ class RaiParser:
             }
             if item.get("downloadable_audio", None) and item["downloadable_audio"].get("url", None):
                 fitem._data["enclosure"]["@url"] = urljoin(
-                    self.url, item["downloadable_audio"]["url"]
+                    self.url, f"https://raiplay-proxy.giuliomagnifico.workers.dev/?url={item['downloadable_audio']['url']}"
                 ).replace("http:", "https:")
             if item.get("season", None) and item.get("episode", None):
                 fitem._data[f"{NSITUNES}season"] = item["season"]
