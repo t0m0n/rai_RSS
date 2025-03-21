@@ -1,10 +1,8 @@
 name: Update RaiPlaySound Feeds
-
 on:
   schedule:
-    - cron: "0 */6 * * *"  # Aggiorna ogni 6 ore
+    - cron: "0 */6 * * *"
   workflow_dispatch:
-
 jobs:
   update-feeds:
     runs-on: ubuntu-latest
@@ -13,19 +11,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           persist-credentials: false
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.x"
-
       - name: Install dependencies
         run: |
           pip install requests beautifulsoup4 lxml feedendum chardet python-dateutil certifi
-
       - name: Generate Feeds
         run: python scripts/generate_feeds.py
-
       - name: Debug - Verifica file generati
         run: |
           echo "Contenuto della directory:"
@@ -36,7 +30,6 @@ jobs:
             cat "$file"
             echo "-----------------------------"
           done
-
       - name: Verifica dimensione file XML
         run: |
           for file in feed_*.xml; do
@@ -45,7 +38,6 @@ jobs:
               echo "Il file $file è troppo piccolo, potrebbe essere vuoto!"
             fi
           done
-
       - name: Commit and Push (con autenticazione)
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
