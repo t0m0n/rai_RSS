@@ -8,7 +8,10 @@ SCRIPT_PATH = os.path.abspath("scripts/single.py")
 PROGRAMS = {
     "ungiornodapecora": "https://www.raiplaysound.it/programmi/ungiornodapecora",
     "zapping": "https://www.raiplaysound.it/programmi/zapping",
-    "radioanchio": "https://www.raiplaysound.it/programmi/radioanchio"
+    "radioanchio": "https://www.raiplaysound.it/programmi/radioanchio",
+    "trapocoinedicola": "https://www.raiplaysound.it/programmi/trapocoinedicola",
+    "radio3scienza": "https://www.raiplaysound.it/programmi/radio3scienza",
+    "etabeta": "https://www.raiplaysound.it/programmi/etabeta"
 }
 
 for name, url in PROGRAMS.items():
