@@ -12,7 +12,7 @@ PROGRAMS = {
     "trapocoinedicola": "https://www.raiplaysound.it/programmi/trapocoinedicola",
     "radio3scienza": "https://www.raiplaysound.it/programmi/radio3scienza",
     "etabeta": "https://www.raiplaysound.it/programmi/etabeta",
-    "ledicoladirasio1": "https://www.raiplaysound.it/programmi/ledicoladiradio1"
+    "ledicoladiradio1": "https://www.raiplaysound.it/programmi/ledicoladiradio1"
 }
 
 for name, url in PROGRAMS.items():
