@@ -28,6 +28,17 @@ from os.path import join as pathjoin
 from urllib.parse import urljoin
 
 import requests
+
+def resolve_final_mp3_url(indirect_url):
+    try:
+        proxy = "https://raiplay-proxy.giuliomagnifico.workers.dev"
+        response = requests.get(proxy, params={"url": indirect_url}, timeout=10)
+        if response.ok and response.text.endswith(".mp3"):
+            return response.text.strip()
+    except Exception:
+        pass
+    return indirect_url
+
 from feedendum import Feed, FeedItem, to_rss_string
 
 NSITUNES = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
@@ -129,7 +140,8 @@ class RaiParser:
             if item.get("downloadable_audio", None) and item["downloadable_audio"].get("url", None):
                 fitem._data["enclosure"]["@url"] = urljoin(
                     self.url, item["downloadable_audio"]["url"]
-                ).replace("http:", "https:")
+                )).replace("http:", "https:")
+                fitem._data["enclosure"]["@url"] = resolve_final_mp3_url(fitem._data["enclosure"]["@url"])
             if item.get("season", None) and item.get("episode", None):
                 fitem._data[f"{NSITUNES}season"] = item["season"]
                 fitem._data[f"{NSITUNES}episode"] = item["episode"]
