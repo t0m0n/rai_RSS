@@ -116,12 +116,10 @@ class RaiParser:
             fitem.update = dupdate
             fitem.url = urljoin(self.url, item["track_info"]["page_url"])
             fitem.content = item.get("description", item["title"])
-            original_url = urljoin(self.url, item["audio"]["url"])
-            final_mp3_url = resolve_final_mp3_url(original_url)
             fitem._data = {
                 "enclosure": {
                     "@type": "audio/mpeg",
-                    "@url": final_mp3_url,
+                    "@url": urljoin(self.url, item["audio"]["url"]),
                 },
                 f"{NSITUNES}title": fitem.title,
                 f"{NSITUNES}summary": fitem.content,
