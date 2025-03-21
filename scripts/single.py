@@ -1,24 +1,19 @@
-
 def resolve_final_mp3_url(indirect_url):
     try:
         session = requests.Session()
         response = session.get(indirect_url, timeout=10)
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
-            # Look for direct .mp3 link in HTML
             for audio_tag in soup.find_all('audio'):
                 src = audio_tag.get('src')
                 if src and src.endswith(".mp3"):
                     return src
-            # Fallback: Try regex search for an MP3 link in the page source
             match = re.search(r'https?://[^\s"]+\.mp3', response.text)
             if match:
                 return match.group(0)
         return indirect_url
     except Exception as e:
         return indirect_url
-
-
 import os
 import tempfile
 from datetime import datetime as dt
@@ -26,17 +21,11 @@ from datetime import timedelta
 from itertools import chain
 from os.path import join as pathjoin
 from urllib.parse import urljoin
-
 import requests
 from feedendum import Feed, FeedItem, to_rss_string
-
 NSITUNES = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
-
-
 def url_to_filename(url: str) -> str:
     return url.split("/")[-1] + ".xml"
-
-
 def _datetime_parser(s: str) -> dt | None:
     if not s:
         return None
@@ -53,14 +42,11 @@ def _datetime_parser(s: str) -> dt | None:
     except ValueError:
         pass
     return None
-
-
 class RaiParser:
     def __init__(self, url: str, folderPath: str) -> None:
         self.url = url
         self.folderPath = folderPath
         self.inner: list[Feed] = []
-
     def extend(self, url: str) -> None:
         url = urljoin(self.url, url)
         if url == self.url:
@@ -69,7 +55,6 @@ class RaiParser:
             return
         parser = RaiParser(url, self.folderPath)
         self.inner.extend(parser.process())
-
     def _json_to_feed(self, feed: Feed, rdata) -> None:
         feed.title = rdata["title"]
         feed.description = rdata["podcast_info"].get("description", "")
@@ -79,8 +64,7 @@ class RaiParser:
         feed._data[f"{NSITUNES}author"] = "RaiPlaySound"
         feed._data["language"] = "it-it"
         feed._data[f"{NSITUNES}owner"] = {f"{NSITUNES}email": "giuliomagnifico@gmail.com"}
-        # Categories
-        categories = set()  # to prevent duplicates
+        categories = set()
         for c in chain(
             rdata["podcast_info"]["genres"],
             rdata["podcast_info"]["subgenres"],
@@ -110,8 +94,6 @@ class RaiParser:
             fitem = FeedItem()
             fitem.title = item["toptitle"]
             fitem.id = "giuliomagnifico-raiplay-feed-" + item["uniquename"]
-            # Keep original ordering by tweaking update seconds
-            # Fix time in case of bad ordering
             dupdate = _datetime_parser(item["create_date"] + " " + item["create_time"])
             fitem.update = dupdate
             fitem.url = urljoin(self.url, item["track_info"]["page_url"])
@@ -134,7 +116,6 @@ class RaiParser:
                 fitem._data[f"{NSITUNES}season"] = item["season"]
                 fitem._data[f"{NSITUNES}episode"] = item["episode"]
             feed.items.append(fitem)
-
     def process(
         self, skip_programmi=True, skip_film=True, date_ok=False, reverse=False
     ) -> list[Feed]:
@@ -161,19 +142,16 @@ class RaiParser:
             print(f"Empty: {self.url}")
         if feed.items:
             if not date_ok and all([item.update for item in feed.items]):
-                # Try to fix the update timestamp
                 dates = [i.update.date() for i in feed.items]
                 increasing = all(map(lambda a, b: b >= a, dates[0:-1], dates[1:]))
                 decreasing = all(map(lambda a, b: b <= a, dates[0:-1], dates[1:]))
                 if increasing and not decreasing:
-                    # Dates never decrease
                     last_update = dt.fromtimestamp(0)
                     for item in feed.items:
                         if item.update <= last_update:
                             item.update = last_update + timedelta(seconds=1)
                         last_update = item.update
                 elif decreasing and not increasing:
-                    # Dates never decrease
                     last_update = feed.items[0].update + timedelta(seconds=1)
                     for item in feed.items:
                         if item.update >= last_update:
@@ -190,7 +168,6 @@ class RaiParser:
                         reverse=reverse,
                     )
                 except ValueError:
-                    # season or episode not an int
                     feed.items = sorted(
                         feed.items,
                         key=lambda e: str(e._data[f"{NSITUNES}season"]).zfill(5)
@@ -203,8 +180,6 @@ class RaiParser:
             atomic_write(filename, to_rss_string(feed))
             print(f"Written {filename}")
         return [feed] + self.inner
-
-
 def atomic_write(filename, content: str):
     tmp = tempfile.NamedTemporaryFile(
         mode="w",
@@ -217,11 +192,8 @@ def atomic_write(filename, content: str):
     tmp.write(content)
     tmp.close()
     os.replace(tmp.name, filename)
-
-
 def main():
     import argparse
-
     parser = argparse.ArgumentParser(
         description="Genera un RSS da un programma di RaiPlaySound.",
         epilog="Info su https://github.com/giuliomagnifico/raiplay-feed/",
@@ -250,7 +222,6 @@ def main():
         help="Ordina gli episodi dal più recente al meno recente.",
         action="store_true",
     )
-
     args = parser.parse_args()
     parser = RaiParser(args.url, args.folder)
     parser.process(
@@ -259,7 +230,5 @@ def main():
         date_ok=args.dateok,
         reverse=args.reverse,
     )
-
-
 if __name__ == "__main__":
     main()
