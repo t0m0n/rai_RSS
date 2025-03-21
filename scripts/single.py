@@ -116,11 +116,21 @@ class RaiParser:
             fitem.update = dupdate
             fitem.url = urljoin(self.url, item["track_info"]["page_url"])
             fitem.content = item.get("description", item["title"])
+            mp3_original_url = urljoin(self.url, item["audio"]["url"])
+            try:
+                resolved = requests.get(mp3_original_url, allow_redirects=True, timeout=10)
+                if resolved.status_code == 200 and resolved.url.endswith(".mp3"):
+                    final_url = resolved.url
+                else:
+                    final_url = mp3_original_url
+            except Exception:
+                final_url = mp3_original_url
+
             fitem._data = {
                 "enclosure": {
                     "@type": "audio/mpeg",
-                    "@url": urljoin(self.url, item["audio"]["url"]),
-                },
+                    "@url": final_url,
+                },,
                 f"{NSITUNES}title": fitem.title,
                 f"{NSITUNES}summary": fitem.content,
                 f"{NSITUNES}duration": item["audio"]["duration"],
