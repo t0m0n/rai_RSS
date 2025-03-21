@@ -12,7 +12,7 @@ PROGRAMS = {
 }
 
 for name, url in PROGRAMS.items():
-    print(f"📡 Generazione feed per {name}...")
+    print(f"Generazione feed per {name}...")
 
     try:
         # Esegui lo script single.py con il flag --programma
@@ -28,15 +28,15 @@ for name, url in PROGRAMS.items():
 
         # Verifica se il file originale esiste
         if not os.path.exists(original_file):
-            print(f"❌ Errore: Il file {original_file} non è stato generato correttamente!")
+            print(f"Errore: Il file {original_file} non è stato generato correttamente!")
             continue  # Passa al prossimo programma
 
         # Rinominiamo il file corretto con il prefisso "feed_"
         new_file = f"feed_{name}.xml"
         os.rename(original_file, new_file)
-        print(f"✅ Feed XML salvato correttamente: {new_file}")
+        print(f"Feed XML salvato correttamente: {new_file}")
 
     except subprocess.CalledProcessError as e:
-        print(f"❌ Errore nell'esecuzione di single.py per {name}: {e.stderr}")
+        print(f"Errore nell'esecuzione di single.py per {name}: {e.stderr}")
     except Exception as e:
-        print(f"❌ Errore generico per {name}: {e}")
+        print(f"Errore generico per {name}: {e}")
