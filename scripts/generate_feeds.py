@@ -35,7 +35,7 @@ for name, url in PROGRAMS.items():
             continue  # Passa al prossimo programma
 
         # Rinominiamo il file corretto con il prefisso "feed_"
-        new_file = f"feed_{name}.xml"
+        new_file = f"f_{name}.xml"
         os.rename(original_file, new_file)
         print(f"Feed XML salvato correttamente: {new_file}")
 
