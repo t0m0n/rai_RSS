@@ -8,7 +8,7 @@ Questo repository è impostato per aggiornarsi automaticamente ogni 6 ore e ricr
 
 Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
 
-- [Eta Beta | Rai Radio 1] (https://www.raiplaysound.it/programmi/etabeta)
+- [Eta Beta | Rai Radio 1](https://www.raiplaysound.it/programmi/etabeta)
 - [L'edicola di Radio1](https://www.raiplaysound.it/programmi/ledicoladiradio1)
 - [Radio3 Scienza](https://www.raiplaysound.it/programmi/radio3scienza)
 - [Radio anch'io](https://www.raiplaysound.it/programmi/radioanchio)
