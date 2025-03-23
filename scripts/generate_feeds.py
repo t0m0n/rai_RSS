@@ -8,8 +8,8 @@ PROGRAMS = {
     "trapocoinedicola": "https://www.raiplaysound.it/programmi/trapocoinedicola",
     "radio3scienza": "https://www.raiplaysound.it/programmi/radio3scienza",
     "etabeta": "https://www.raiplaysound.it/programmi/etabeta",
-    "ledicoladiradio1": "https://www.raiplaysound.it/programmi/ledicoladiradio1"
-    "gr1": "https://www.raiplaysound.it/programmi/gr1"
+    "ledicoladiradio1": "https://www.raiplaysound.it/programmi/ledicoladiradio1",
+    "gr1": "https://www.raiplaysound.it/programmi/gr1",
     "grfriuliveneziagiulia": "https://www.raiplaysound.it/programmi/grfriuliveneziagiulia"
 }
 for name, url in PROGRAMS.items():
