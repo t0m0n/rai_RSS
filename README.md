@@ -9,6 +9,8 @@ Questo repository è impostato per aggiornarsi automaticamente ogni 6 ore e ricr
 Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
 
 - [Eta Beta](https://www.raiplaysound.it/programmi/etabeta)
+- [GR 1](https://www.raiplaysound.it/programmi/gr1)
+- [GR Friuli Venezia Giulia](https://www.raiplaysound.it/programmi/grfriuliveneziagiulia)
 - [L'edicola di Radio1](https://www.raiplaysound.it/programmi/ledicoladiradio1)
 - [Radio3 Scienza](https://www.raiplaysound.it/programmi/radio3scienza)
 - [Radio anch'io](https://www.raiplaysound.it/programmi/radioanchio)
@@ -21,9 +23,11 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
   Per iscriversi ai feed, i link sono:
   
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_etabeta.xml`
+  - `https://giuliomagnifico.github.io/raiplay-feed/feed_gr1.xml`
+  - `https://giuliomagnifico.github.io/raiplay-feed/feed_grfriuliveneziagiulia.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_ledicoladiradio1.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_radio3scienza.xml`
- - `https://giuliomagnifico.github.io/raiplay-feed/feed_radioanchio.xml`
+  - `https://giuliomagnifico.github.io/raiplay-feed/feed_radioanchio.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_trapocoinedicola.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_ungiornodapecora.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_zapping.xml`
