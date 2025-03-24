@@ -10,7 +10,9 @@ PROGRAMS = {
     "etabeta": "https://www.raiplaysound.it/programmi/etabeta",
     "ledicoladiradio1": "https://www.raiplaysound.it/programmi/ledicoladiradio1",
     "gr1": "https://www.raiplaysound.it/programmi/gr1",
-    "grfriuliveneziagiulia": "https://www.raiplaysound.it/programmi/grfriuliveneziagiulia"
+    "grfriuliveneziagiulia": "https://www.raiplaysound.it/programmi/grfriuliveneziagiulia",
+    "detectives-casirisoltieirrisolti": "https://www.raiplaysound.it/programmi/detectives-casirisoltieirrisolti"
+    
 }
 for name, url in PROGRAMS.items():
     print(f"Generazione feed per {name}...")
