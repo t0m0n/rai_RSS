@@ -51,7 +51,7 @@ def _datetime_parser(s: str) -> dt | None:
         except ValueError:
             continue
     return None
-    class RaiParser:
+class RaiParser:
     def __init__(self, url: str, folderPath: str) -> None:
         self.url = url
         self.folderPath = folderPath
