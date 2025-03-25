@@ -18,7 +18,7 @@ for name, url in PROGRAMS.items():
     print(f"Generazione feed per {name}...")
     try:
         result = subprocess.run(
-            ["python3", SCRIPT_PATH, "--programma", url],
+            ["python3", SCRIPT_PATH, url],
             capture_output=True,
             text=True,
             check=True
