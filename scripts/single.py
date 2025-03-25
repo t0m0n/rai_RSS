@@ -103,7 +103,7 @@ class RaiParser:
             fitem = FeedItem()
             fitem.title = item["toptitle"]
             fitem.id = "giuliomagnifico-raiplay-feed-" + item["uniquename"]
-            dupdate = _datetime_parser(item["create_date"] + " " + item["create_time"])
+            dupdate = _datetime_parser(item["toptitle"])
             fitem.update = dupdate
             fitem.url = urljoin(self.url, item["track_info"]["page_url"])
             fitem.content = item.get("description", item["title"])
