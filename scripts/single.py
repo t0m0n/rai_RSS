@@ -1,3 +1,14 @@
+import os
+import tempfile
+import requests
+import re
+from datetime import datetime as dt, timedelta
+from urllib.parse import urljoin
+from feedendum import Feed, FeedItem, to_rss_string
+from itertools import chain
+
+NSITUNES = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
+
 def resolve_final_mp3_url(indirect_url):
     try:
         session = requests.Session()
@@ -12,235 +23,115 @@ def resolve_final_mp3_url(indirect_url):
             if match:
                 return match.group(0)
         return indirect_url
-    except Exception as e:
+    except Exception:
         return indirect_url
-import os
-import tempfile
-from datetime import datetime as dt
-from datetime import timedelta
-from itertools import chain
-from os.path import join as pathjoin
-from urllib.parse import urljoin
-import requests
-from feedendum import Feed, FeedItem, to_rss_string
-NSITUNES = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
+
 def url_to_filename(url: str) -> str:
     return url.split("/")[-1] + ".xml"
-def _datetime_parser(s: str) -> dt | None:
-    import re
-    match = re.search(r'(\d{2})/(\d{2})/(\d{4})', s)
-    if match:
-        day, month, year = match.groups()
-        return dt(int(year), int(month), int(day), 8, 15, 0)
-    month_map = {
-        'Gen': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'Mag': 5, 'Giu': 6,
-        'Lug': 7, 'Ago': 8, 'Set': 9, 'Ott': 10, 'Nov': 11, 'Dic': 12
-    }
-    match = re.search(r'(\d{1,2}) (\w{3}) (\d{4})', s)
-    if match:
-        day, month_str, year = match.groups()
-        month = month_map.get(month_str.capitalize())
-        if month:
-            return dt(int(year), month, int(day), 8, 15, 0)
-    try:
-        return dt.strptime(s, "%a, %d %b %Y %H:%M:%S %z")
-    except ValueError:
-        pass
-    for fmt in ("%d-%m-%Y %H:%M:%S", "%d-%m-%Y %H:%M", "%Y-%m-%d"):
+
+def _datetime_parser(s: str) -> dt:
+    formats = [
+        "%a, %d %b %Y %H:%M:%S %z",
+        "%d/%m/%Y",
+        "%d %b %Y",
+        "%d-%m-%Y %H:%M:%S",
+        "%Y-%m-%d"
+    ]
+    for fmt in formats:
         try:
             return dt.strptime(s, fmt)
         except ValueError:
             continue
-
-    return None
+    return dt.now()
 
 class RaiParser:
     def __init__(self, url: str, folderPath: str) -> None:
         self.url = url
         self.folderPath = folderPath
-        self.inner: list[Feed] = []
-    def extend(self, url: str) -> None:
-        url = urljoin(self.url, url)
-        if url == self.url:
-            return
-        if url in (f.url for f in self.inner):
-            return
-        parser = RaiParser(url, self.folderPath)
-        self.inner.extend(parser.process())
-    def _json_to_feed(self, feed: Feed, rdata) -> None:
+
+    def process(self) -> None:
+        response = requests.get(self.url + ".json")
+        response.raise_for_status()
+        rdata = response.json()
+
+        feed = Feed()
         feed.title = rdata["title"]
-        feed.description = rdata["podcast_info"].get("description", "")
-        feed.description = feed.description or rdata["title"]
+        feed.description = rdata["podcast_info"].get("description", rdata["title"])
         feed.url = self.url
         feed._data["image"] = {"url": urljoin(self.url, rdata["podcast_info"]["image"])}
         feed._data[f"{NSITUNES}author"] = "RaiPlaySound"
         feed._data["language"] = "it-it"
         feed._data[f"{NSITUNES}owner"] = {f"{NSITUNES}email": "giuliomagnifico@gmail.com"}
-        categories = set()
-        for c in chain(
+
+        categories = {c["name"] for c in chain(
             rdata["podcast_info"]["genres"],
             rdata["podcast_info"]["subgenres"],
             rdata["podcast_info"]["dfp"].get("escaped_genres", []),
             rdata["podcast_info"]["dfp"].get("escaped_typology", []),
-        ):
-            categories.add(c["name"])
-        try:
-            for c in rdata["podcast_info"]["metadata"]["product_sources"]:
-                categories.add(c["name"])
-        except KeyError:
-            pass
+        )}
+
         feed._data[f"{NSITUNES}category"] = [{"@text": c} for c in categories]
-        cards = []
-        try:
-            feed.update = _datetime_parser(rdata["block"]["update_date"])
-            cards = rdata["block"]["cards"]
-        except KeyError:
-            pass
-        if not feed.update:
-            feed.update = _datetime_parser(rdata["track_info"]["date"])
+
+        cards = rdata["block"].get("cards", [])
+        feed.items = []
+
         for item in cards:
-            if "/playlist/" in item.get("weblink", ""):
-                self.extend(item["weblink"])
-            if not item.get("audio", None):
+            if not item.get("audio"):
                 continue
+
             fitem = FeedItem()
             fitem.title = item["toptitle"]
             fitem.id = "giuliomagnifico-raiplay-feed-" + item["uniquename"]
-            dupdate = _datetime_parser(item["toptitle"])
-            fitem.update = dupdate
+            fitem.update = _datetime_parser(item["track_info"].get("date", dt.now().isoformat()))
             fitem.url = urljoin(self.url, item["track_info"]["page_url"])
             fitem.content = item.get("description", item["title"])
+
+            enclosure_url = item["audio"].get("url")
+            if item.get("downloadable_audio", {}).get("url"):
+                enclosure_url = item["downloadable_audio"]["url"].replace("http:", "https:")
+
             fitem._data = {
                 "enclosure": {
                     "@type": "audio/mpeg",
-                    "@url": urljoin(self.url, item["audio"]["url"]),
+                    "@url": urljoin(self.url, enclosure_url),
                 },
                 f"{NSITUNES}title": fitem.title,
                 f"{NSITUNES}summary": fitem.content,
                 f"{NSITUNES}duration": item["audio"]["duration"],
                 "image": {"url": urljoin(self.url, item["image"])},
             }
-            if item.get("downloadable_audio", None) and item["downloadable_audio"].get("url", None):
-                fitem._data["enclosure"]["@url"] = urljoin(
-                    self.url, item["downloadable_audio"]["url"]
-                ).replace("http:", "https:")
-            if item.get("season", None) and item.get("episode", None):
-                fitem._data[f"{NSITUNES}season"] = item["season"]
-                fitem._data[f"{NSITUNES}episode"] = item["episode"]
+
             feed.items.append(fitem)
-    def process(
-        self, skip_programmi=True, skip_film=True, date_ok=False, reverse=False
-    ) -> list[Feed]:
-        result = requests.get(self.url + ".json")
-        try:
-            result.raise_for_status()
-        except requests.HTTPError as e:
-            print(f"Error with {self.url}: {e}")
-            return self.inner
-        rdata = result.json()
-        typology = rdata["podcast_info"].get("typology", "").lower()
-        if skip_programmi and (typology in ("programmi radio", "informazione notiziari")):
-            print(f"Skipped programmi: {self.url} ({typology})")
-            return []
-        if skip_film and (typology in ("film", "fiction")):
-            print(f"Skipped film: {self.url} ({typology})")
-            return []
-        for tab in rdata["tab_menu"]:
-            if tab["content_type"] == "playlist":
-                self.extend(tab["weblink"])
-        feed = Feed()
-        self._json_to_feed(feed, rdata)
-        if not feed.items and not self.inner:
-            print(f"Empty: {self.url}")
-        if feed.items:
-            if not date_ok and all([item.update for item in feed.items]):
-                dates = [i.update.date() for i in feed.items]
-                increasing = all(map(lambda a, b: b >= a, dates[0:-1], dates[1:]))
-                decreasing = all(map(lambda a, b: b <= a, dates[0:-1], dates[1:]))
-                if increasing and not decreasing:
-                    last_update = dt.fromtimestamp(0)
-                    for item in feed.items:
-                        if item.update <= last_update:
-                            item.update = last_update + timedelta(seconds=1)
-                        last_update = item.update
-                elif decreasing and not increasing:
-                    last_update = feed.items[0].update + timedelta(seconds=1)
-                    for item in feed.items:
-                        if item.update >= last_update:
-                            item.update = last_update - timedelta(seconds=1)
-                        last_update = item.update
-            if all([i._data.get(f"{NSITUNES}episode") for i in feed.items]) and all(
-                [i._data.get(f"{NSITUNES}season") for i in feed.items]
-            ):
-                try:
-                    feed.items = sorted(
-                        feed.items,
-                        key=lambda e: int(e._data[f"{NSITUNES}episode"])
-                        + int(e._data[f"{NSITUNES}season"]) * 10000,
-                        reverse=reverse,
-                    )
-                except ValueError:
-                    feed.items = sorted(
-                        feed.items,
-                        key=lambda e: str(e._data[f"{NSITUNES}season"]).zfill(5)
-                        + str(e._data[f"{NSITUNES}episode"]).zfill(5),
-                        reverse=reverse,
-                    )
-            else:
-                feed.sort_items()
-            filename = pathjoin(self.folderPath, url_to_filename(self.url))
-            atomic_write(filename, to_rss_string(feed))
-            print(f"Written {filename}")
-        return [feed] + self.inner
+
+        feed.items.sort(key=lambda x: x.update, reverse=True)
+
+        filename = os.path.join(self.folderPath, url_to_filename(self.url))
+        atomic_write(filename, to_rss_string(feed))
+
 def atomic_write(filename, content: str):
     tmp = tempfile.NamedTemporaryFile(
-        mode="w",
-        encoding="utf8",
-        delete=False,
-        dir=os.path.dirname(filename),
-        prefix=".tmp-single-",
-        suffix=".xml",
+        mode="w", encoding="utf8", delete=False,
+        dir=os.path.dirname(filename), prefix=".tmp-single-", suffix=".xml"
     )
     tmp.write(content)
     tmp.close()
     os.replace(tmp.name, filename)
+
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(
-        description="Genera un RSS da un programma di RaiPlaySound.",
-        epilog="Info su https://github.com/giuliomagnifico/raiplay-feed/",
+        description="Genera RSS da RaiPlaySound",
+        epilog="Info su https://github.com/giuliomagnifico/raiplay-feed/"
     )
-    parser.add_argument("url", help="URL di un podcast (o playlist) su raiplaysound.")
-    parser.add_argument(
-        "-f", "--folder", help="Cartella in cui scrivere il RSS podcast.", default="."
-    )
-    parser.add_argument(
-        "--film",
-        help="Elabora il podcast anche se sembra un film.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "--programma",
-        help="Elabora il podcast anche se sembra un programma radio/tv.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "--dateok",
-        help="Lascia inalterata la data di pubblicazione degli episodi.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "--reverse",
-        help="Ordina gli episodi dal più recente al meno recente.",
-        action="store_true",
-    )
+
+    parser.add_argument("url", help="URL podcast RaiPlaySound")
+    parser.add_argument("-f", "--folder", default=".", help="Cartella output")
+
     args = parser.parse_args()
-    parser = RaiParser(args.url, args.folder)
-    parser.process(
-        skip_programmi=not args.programma,
-        skip_film=not args.film,
-        date_ok=args.dateok,
-        reverse=args.reverse,
-    )
+
+    rai_parser = RaiParser(args.url, args.folder)
+    rai_parser.process()
+
 if __name__ == "__main__":
     main()
