@@ -28,9 +28,11 @@ def url_to_filename(url: str) -> str:
     return url.split("/")[-1] + ".xml"
 def _datetime_parser(s: str) -> dt | None:
     import re
-    if not s:
-        return None
-    # nuovo parser formato testuale es. "24 Mar 2025"
+    match = re.search(r'(\d{2})/(\d{2})/(\d{4})', s)
+    if match:
+        day, month, year = match.groups()
+        return dt(int(year), int(month), int(day), 8, 15, 0)
+    return None    # nuovo parser formato testuale es. "24 Mar 2025"
     month_map = {
         'Gen': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'Mag': 5, 'Giu': 6,
         'Lug': 7, 'Ago': 8, 'Set': 9, 'Ott': 10, 'Nov': 11, 'Dic': 12
