@@ -28,11 +28,14 @@ def url_to_filename(url: str) -> str:
     return url.split("/")[-1] + ".xml"
 def _datetime_parser(s: str) -> dt | None:
     import re
+
+    # Gestisce formato DD/MM/YYYY
     match = re.search(r'(\d{2})/(\d{2})/(\d{4})', s)
     if match:
         day, month, year = match.groups()
         return dt(int(year), int(month), int(day), 8, 15, 0)
-    return None    # nuovo parser formato testuale es. "24 Mar 2025"
+
+    # Gestisce formato testuale es. "24 Mar 2025"
     month_map = {
         'Gen': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'Mag': 5, 'Giu': 6,
         'Lug': 7, 'Ago': 8, 'Set': 9, 'Ott': 10, 'Nov': 11, 'Dic': 12
@@ -42,17 +45,23 @@ def _datetime_parser(s: str) -> dt | None:
         day, month_str, year = match.groups()
         month = month_map.get(month_str.capitalize())
         if month:
-            try:
-                return dt(int(year), month, int(day), 8, 15, 0)
-            except ValueError:
-                pass
-    # fallback vecchio parser
+            return dt(int(year), month, int(day), 8, 15, 0)
+
+    # Gestisce il formato RFC2822 già pronto, restituisce direttamente
+    try:
+        return dt.strptime(s, "%a, %d %b %Y %H:%M:%S %z")
+    except ValueError:
+        pass
+
+    # Fallback ad altri formati comuni
     for fmt in ("%d-%m-%Y %H:%M:%S", "%d-%m-%Y %H:%M", "%Y-%m-%d"):
         try:
             return dt.strptime(s, fmt)
         except ValueError:
             continue
+
     return None
+
 class RaiParser:
     def __init__(self, url: str, folderPath: str) -> None:
         self.url = url
