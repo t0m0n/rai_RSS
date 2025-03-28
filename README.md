@@ -4,7 +4,7 @@ Raiplay feed serve per generare un feed RSS dei podcast RAI che altrimenti sareb
 
 Lo script è basato sull'ottimo lavoro di: [timendum/raiplaysound](https://github.com/timendum/raiplaysound). Solo leggermente modificato per rispettare correttamente le date di uscita dei podcast, e automatizzata la generazione ogni ora, nel caso fossero presenti nuovi episodi. 
 
-Questo repository è impostato per aggiornarsi automaticamente ogni 6 ore e ricreare i file XML con i nuovi episodi.
+Questo repository è impostato per aggiornarsi automaticamente ogni ora e ricreare i file XML con i nuovi episodi, se presenti. 
 
 Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
 
@@ -34,10 +34,13 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_ungiornodapecora.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_zapping.xml`
 
-⚠️ è presente un problema di redirect e cache su Pocket Casts, per gli altri podcast player funzionano correttamente. 
+Se volete altri podcast, provate a scrivermi, appena ho tempo li aggiungo, oppure clonate il repository e aggiungeteli voi nel file [generate_feeds.py](https://github.com/giuliomagnifico/raiplay-feed/blob/main/scripts/generate_feeds.py)
 
-Se usate PocketCasts quando premete play vi dira che c'è un problema di connessione, basta scaricare il file o aspettare che scarichi il file e poi riparte. In poche parole, quando premete play, invece di fare lo streaming, va a scaricare il file, quindi vi dirà che c'è un errore ma in realtà lo sta scaricando in background. 
-
-È un problema solo di PocketCast perchè non fa partire lo streaming se c'è una redirect, sono in contatto con il loro supporto per sperare di risolvere questo fastidioso problema. 
-
-Nel frattempo, io ho attivato il download automatico per i podcast giornalieri così li trovo direttamemte scaricati nel caso usassi la coda di riproduzione. 
+>[!WARNING]
+>è presente un problema di redirect e cache su Pocket Casts, per gli altri podcast player funzionano correttamente. 
+>
+>Se usate PocketCasts quando premete play vi dira che c'è un problema di connessione, basta scaricare il file o aspettare che scarichi il file e poi riparte. In poche parole, quando premete play, invece di fare lo streaming, va a scaricare il file, quindi vi dirà che c'è un errore ma in realtà lo sta scaricando in background. 
+>
+>È un problema solo di PocketCast perchè non fa partire lo streaming se c'è una redirect, sono in contatto con il loro supporto per sperare di risolvere questo fastidioso problema. 
+>
+>Nel frattempo, io ho attivato il download automatico per i podcast giornalieri così li trovo direttamemte scaricati nel caso usassi la coda di riproduzione. 
