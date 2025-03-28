@@ -1,6 +1,6 @@
 ## Raiplay Feed
 
-Raiplay feed serve per generare un feed XML dei podcast RAI che altrimenti sarebbero accessibili solo tramite la loro (pessima) applicazione "RaiPlay Sound". In questo modo si può inserire il feed in ogni lettore podcast.
+Raiplay feed serve per generare un feed RSS dei podcast RAI che altrimenti sarebbero accessibili solo tramite la loro (pessima) applicazione "RaiPlay Sound". In questo modo si può inserire il feed in ogni lettore podcast.
 
 Lo script è basato sull'ottimo lavoro di: [timendum/raiplaysound](https://github.com/timendum/raiplaysound). Solo leggermente modificato per rispettare correttamente le date di uscita dei podcast, e automatizzata la generazione ogni ora, nel caso fossero presenti nuovi episodi. 
 
