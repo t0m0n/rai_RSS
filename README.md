@@ -34,4 +34,10 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_ungiornodapecora.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_zapping.xml`
 
-⚠️ sto ancora lavorando sopra, per un problema di redirect e cache su Pocket Casts, per gli altri podcast player funzionano correttamente
+⚠️ è presente un problema di redirect e cache su Pocket Casts, per gli altri podcast player funzionano correttamente. 
+
+Se usate PocketCasts quando premete play vi dira che c'è un problema di connessione, basta scaricare il file o aspettare che scarichi il file e poi riparte. In poche parole, quando premete play, invece di fare lo streaming, va a scaricare il file, quindi vi dirà che c'è un errore ma in realtà lo sta scaricando in background. 
+
+È un problema solo di PocketCast perchè non fa partire lo streaming se c'è una redirect, sono in contatto con il loro supporto per sperare di risolvere questo fastidioso problema. 
+
+Nel frattempo, io ho attivato il download automatico per i podcast giornalieri così li trovo direttamemte scaricati nel caso usassi la coda di riproduzione. 
