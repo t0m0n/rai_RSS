@@ -11,7 +11,8 @@ PROGRAMS = {
     "ledicoladiradio1": "https://www.raiplaysound.it/programmi/ledicoladiradio1",
     "gr1": "https://www.raiplaysound.it/programmi/gr1",
     "grfriuliveneziagiulia": "https://www.raiplaysound.it/programmi/grfriuliveneziagiulia",
-    "detectives-casirisoltieirrisolti": "https://www.raiplaysound.it/programmi/detectives-casirisoltieirrisolti"
+    "detectives-casirisoltieirrisolti": "https://www.raiplaysound.it/programmi/detectives-casirisoltieirrisolti",
+    "radio3mondo": "https://www.raiplaysound.it/programmi/radio3mondo"
     
 }
 for name, url in PROGRAMS.items():
