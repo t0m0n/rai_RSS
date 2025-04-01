@@ -18,6 +18,7 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
 - [Tra poco in edicola](https://www.raiplaysound.it/programmi/trapocoinedicola)
 - [Un giorno da pecora](https://www.raiplaysound.it/programmi/ungiornodapecora)
 - [Zapping](https://www.raiplaysound.it/programmi/zapping)
+- [Radio3 Mondo](https://www.raiplaysound.it/programmi/radio3mondo)
 
 ***
 
@@ -33,6 +34,7 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_trapocoinedicola.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_ungiornodapecora.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_zapping.xml`
+  - `https://giuliomagnifico.github.io/raiplay-feed/feed_radio3mondo.xml`
 
 Se volete altri podcast, provate a scrivermi, appena ho tempo li aggiungo, oppure clonate il repository e aggiungeteli voi nel file [generate_feeds.py](https://github.com/giuliomagnifico/raiplay-feed/blob/main/scripts/generate_feeds.py)
 <br><br><br>
