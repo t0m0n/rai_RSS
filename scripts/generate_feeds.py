@@ -1,5 +1,6 @@
 import os
-import subprocess
+from single import RaiParser
+
 SCRIPT_PATH = os.path.abspath("scripts/single.py")
 PROGRAMS = {
     "ungiornodapecora": "https://www.raiplaysound.it/programmi/ungiornodapecora",
@@ -18,12 +19,8 @@ PROGRAMS = {
 for name, url in PROGRAMS.items():
     print(f"Generazione feed per {name}...")
     try:
-        result = subprocess.run(
-            ["python3", SCRIPT_PATH, url],
-            capture_output=True,
-            text=True,
-            check=True
-        )
+        rai_parser = RaiParser(url, ".")
+        rai_parser.process()
         original_file = f"{name}.xml"
         if not os.path.exists(original_file):
             print(f"Errore: Il file {original_file} non è stato generato correttamente!")
@@ -31,7 +28,5 @@ for name, url in PROGRAMS.items():
         new_file = f"feed_{name}.xml"
         os.rename(original_file, new_file)
         print(f"Feed XML salvato correttamente: {new_file}")
-    except subprocess.CalledProcessError as e:
-        print(f"Errore nell'esecuzione di single.py per {name}: {e.stderr}")
     except Exception as e:
         print(f"Errore generico per {name}: {e}")
