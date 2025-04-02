@@ -70,7 +70,7 @@ class RaiParser:
             rdata["podcast_info"]["dfp"].get("escaped_typology", []),
         )}
 
-        feed._data[f"{NSITUNES}category"] = [{"@text": c} for c in categories]
+        feed._data[f"{NSITUNES}category"] = [{"@text": c} for c in sorted(categories)]
 
         cards = rdata["block"].get("cards", [])
         feed.items = []
