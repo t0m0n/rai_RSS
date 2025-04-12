@@ -12,6 +12,7 @@ PROGRAMS = {
     "ledicoladiradio1": "https://www.raiplaysound.it/programmi/ledicoladiradio1",
     "gr1": "https://www.raiplaysound.it/programmi/gr1",
     "grfriuliveneziagiulia": "https://www.raiplaysound.it/programmi/grfriuliveneziagiulia",
+    "grsardegna": "https://www.raiplaysound.it/programmi/grsardegna",
     "detectives-casirisoltieirrisolti": "https://www.raiplaysound.it/programmi/detectives-casirisoltieirrisolti",
     "radio3mondo": "https://www.raiplaysound.it/programmi/radio3mondo",
     "sotto-questalottaciriguarda": "https://www.raiplaysound.it/programmi/sotto-questalottaciriguarda",
