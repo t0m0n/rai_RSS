@@ -13,6 +13,7 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
 - [Detectives - Casi risolti e irrisolti](https://www.raiplaysound.it/programmi/detectives-casirisoltieirrisolti)
 - [GR 1](https://www.raiplaysound.it/programmi/gr1)
 - [GR Friuli Venezia Giulia](https://www.raiplaysound.it/programmi/grfriuliveneziagiulia)
+- [GR Sardegna](https://www.raiplaysound.it/programmi/grsardegna)
 - [L'edicola di Radio1](https://www.raiplaysound.it/programmi/ledicoladiradio1)
 - [Radio3 Mondo](https://www.raiplaysound.it/programmi/radio3mondo)
 - [Radio3 Scienza](https://www.raiplaysound.it/programmi/radio3scienza)
@@ -31,6 +32,7 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_detectives-casirisoltieirrisolti.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_gr1.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_grfriuliveneziagiulia.xml`
+  - `https://giuliomagnifico.github.io/raiplay-feed/feed_grsardegna.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_ledicoladiradio1.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_radio3mondo.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_radio3scienza.xml`
