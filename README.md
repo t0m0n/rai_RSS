@@ -31,7 +31,7 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_battiti.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_etabeta.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_detectives-casirisoltieirrisolti.xml`
-  - `https://giuliomagnifico.github.io/raiplay-feed/feed_detectives-giulamaschera.xml`
+  - `https://giuliomagnifico.github.io/raiplay-feed/feed_giulamaschera.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_gr1.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_grfriuliveneziagiulia.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_grsardegna.xml`
