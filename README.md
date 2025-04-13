@@ -11,6 +11,7 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
 - [Battiti](https://www.raiplaysound.it/programmi/battiti)
 - [Eta Beta](https://www.raiplaysound.it/programmi/etabeta)
 - [Detectives - Casi risolti e irrisolti](https://www.raiplaysound.it/programmi/detectives-casirisoltieirrisolti)
+- [Giù la maschera](https://www.raiplaysound.it/programmi/giulamaschera)
 - [GR 1](https://www.raiplaysound.it/programmi/gr1)
 - [GR Friuli Venezia Giulia](https://www.raiplaysound.it/programmi/grfriuliveneziagiulia)
 - [GR Sardegna](https://www.raiplaysound.it/programmi/grsardegna)
@@ -30,6 +31,7 @@ Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_battiti.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_etabeta.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_detectives-casirisoltieirrisolti.xml`
+  - `https://giuliomagnifico.github.io/raiplay-feed/feed_detectives-giulamaschera.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_gr1.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_grfriuliveneziagiulia.xml`
   - `https://giuliomagnifico.github.io/raiplay-feed/feed_grsardegna.xml`
