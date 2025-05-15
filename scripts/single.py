@@ -122,7 +122,7 @@ def main():
 
     parser = argparse.ArgumentParser(
         description="Genera RSS da RaiPlaySound",
-        epilog="Info su https://github.com/giuliomagnifico/raiplay-feed/"
+        epilog="Info su https://github.com/t0m0n/raiplay-feed/"
     )
 
     parser.add_argument("url", help="URL podcast RaiPlaySound")
