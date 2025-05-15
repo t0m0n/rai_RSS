@@ -4,7 +4,13 @@ from single import RaiParser
 SCRIPT_PATH = os.path.abspath("scripts/single.py")
 PROGRAMS = {
     "lacittadamianto": "https://www.raiplaysound.it/programmi/lacittadamianto",
-    "ilcolpodellostato": "https://www.raiplaysound.it/programmi/ilcolpodellostato"
+    "ilcolpodellostato": "https://www.raiplaysound.it/programmi/ilcolpodellostato",
+    "lostatoparallelo": "https://www.raiplaysound.it/programmi/lostatoparallelo",
+    "archividellafolliaincercadifrancobasaglia": "https://www.raiplaysound.it/programmi/archividellafolliaincercadifrancobasaglia",
+    "14-18grandeguerra100annidopo": "https://www.raiplaysound.it/programmi/14-18grandeguerra100annidopo",
+    "nonapriteicassettidelpoteremanipuliteeloscandalodelletangenti": "https://www.raiplaysound.it/programmi/nonapriteicassettidelpoteremanipuliteeloscandalodelletangenti",
+    "vivalitalialemortidifaustoeiaio": "https://www.raiplaysound.it/programmi/vivalitalialemortidifaustoeiaio",
+    "25aprile-dietrolelineenemiche": "https://www.raiplaysound.it/programmi/25aprile-dietrolelineenemiche"
 }
 for name, url in PROGRAMS.items():
     print(f"Generazione feed per {name}...")
