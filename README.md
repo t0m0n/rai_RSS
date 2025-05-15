@@ -10,8 +10,8 @@ Questo repository è impostato per aggiornarsi automaticamente ogni ora e ricrea
 
   Per iscriversi ai feed, i link sono:
   
-  - `https://giuliomagnifico.github.io/raiplay-feed/feed_lacittadamianto.xml`
-  - `https://giuliomagnifico.github.io/raiplay-feed/feed_ilcolpodellostato.xml`
+  - `https://t0m0n.github.io/rai_RSS/feed_lacittadamianto.xml`
+  - `https://t0m0n.github.io/rai_RSS/feed_ilcolpodellostato.xml`
 
 
 Se volete altri podcast, provate a scrivermi, appena ho tempo li aggiungo, oppure clonate il repository e aggiungeteli voi nel file [generate_feeds.py](https://github.com/t0m0n/rai_RSS/blob/main/scripts/generate_feeds.py)
