@@ -3,8 +3,8 @@ from single import RaiParser
 
 SCRIPT_PATH = os.path.abspath("scripts/single.py")
 PROGRAMS = {
-    "La città d'amianto": "https://www.raiplaysound.it/programmi/lacittadamianto",
-    "Il colpo dello Stato": "https://www.raiplaysound.it/programmi/ilcolpodellostato"
+    "lacittadamianto": "https://www.raiplaysound.it/programmi/lacittadamianto",
+    "ilcolpodellostato": "https://www.raiplaysound.it/programmi/ilcolpodellostato"
 }
 for name, url in PROGRAMS.items():
     print(f"Generazione feed per {name}...")
