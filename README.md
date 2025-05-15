@@ -6,15 +6,12 @@ Lo script è basato sull'ottimo lavoro di: [timendum/raiplaysound](https://githu
 
 Questo repository è impostato per aggiornarsi automaticamente ogni ora e ricreare i file XML con i nuovi episodi, se presenti. 
 
-Siccome l'ho fatto per me, ho incluso i podcast che mi interessano:
-
-- [Zapping](https://www.raiplaysound.it/programmi/zapping)
-
 ***
 
   Per iscriversi ai feed, i link sono:
   
-  - `https://giuliomagnifico.github.io/raiplay-feed/feed_zapping.xml`
+  - `https://giuliomagnifico.github.io/raiplay-feed/feed_lacittadamianto.xml`
+  - `https://giuliomagnifico.github.io/raiplay-feed/feed_ilcolpodellostato.xml`
 
 
 Se volete altri podcast, provate a scrivermi, appena ho tempo li aggiungo, oppure clonate il repository e aggiungeteli voi nel file [generate_feeds.py](https://github.com/t0m0n/rai_RSS/blob/main/scripts/generate_feeds.py)
